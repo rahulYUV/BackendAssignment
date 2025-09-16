@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 
+app.use(express.json());
+
+
 /* HTTP methods */
 //
 // GET: Retrieve data from the server (safe, idempotent).
@@ -45,9 +48,47 @@ app.get("/", (req, res) => {
         totalKidneys: johnKidney.length,
         numberOfHealthyKidneys: healthyKidneys.length, // kidneys where healthy is true
         numberOfUnhealthyKidneys: unhealthyKidneys.length // kidneys where healthy is false
-        
+
     });
-}).listen(5000,()=>{
+})
+
+
+
+
+app.post("/",(req,res)=>{
+    // popular input 
+    // we send data in the body 
+    const isHealthy = req.body.isHealthy;
+    user[0].kdny.push({
+        healthy:isHealthy
+
+    })
+    res.json({
+        msg:"done ",
+        status:200
+    })
+})
+// user can replace healthy 
+// 
+app.put("/", (req, res) => {
+    // Replace all kidneys with healthy ones
+    user[0].kdny = user[0].kdny.map(() => ({ healthy: true }));
+    res.json({
+        msg: "All kidneys replaced with healthy ones",
+        status: 200
+    });
+});
+
+app.delete("/", (req, res) => {
+    // Remove all kidneys from the user
+    user[0].kdny = [];
+    res.json({
+        msg: "All kidneys deleted",
+        status: 200
+    });
+});
+
+app.listen(5000,()=>{
     console.log("listening");
 
-})
+});
